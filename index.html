@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Prompt Architect Pro | Curriculum Selection</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-900: #0c1929; --primary-800: #152238; --primary-700: #1e3a5f;
+            --primary-600: #2563eb; --primary-500: #3b82f6; --primary-400: #60a5fa;
+            --primary-100: #dbeafe; --primary-50: #eff6ff;
+            --accent-600: #0d9488; --accent-500: #14b8a6; --accent-400: #2dd4bf; --accent-100: #ccfbf1;
+            --success: #059669; --warning: #d97706; --error: #dc2626;
+            --gray-900: #111827; --gray-800: #1f2937; --gray-700: #374151; --gray-600: #4b5563;
+            --gray-500: #6b7280; --gray-400: #9ca3af; --gray-300: #d1d5db; --gray-200: #e5e7eb;
+            --gray-100: #f3f4f6; --gray-50: #f9fafb; --white: #ffffff;
+            --font-sans: 'Source Sans 3', -apple-system, BlinkMacSystemFont, sans-serif;
+            --app-width: 1250px; --app-height: 680px;
+            --radius-sm: 4px; --radius-md: 8px; --radius-lg: 12px;
+            --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1);
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { font-size: 14px; -webkit-font-smoothing: antialiased; }
+        body { font-family: var(--font-sans); background: linear-gradient(135deg, var(--gray-100) 0%, var(--gray-200) 100%); min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; color: var(--gray-800); line-height: 1.5; }
+        .app-container { width: var(--app-width); height: var(--app-height); background: var(--white); border-radius: var(--radius-lg); box-shadow: var(--shadow-xl); display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--gray-200); }
+        .app-header { background: linear-gradient(135deg, var(--primary-800) 0%, var(--primary-900) 100%); color: var(--white); padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; border-bottom: 3px solid var(--accent-500); flex-shrink: 0; }
+        .app-logo { display: flex; align-items: center; gap: 12px; }
+        .app-logo-icon { width: 36px; height: 36px; background: var(--accent-500); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 1.25rem; }
+        .app-logo h1 { font-size: 1.25rem; font-weight: 600; }
+        .app-logo .subtitle { font-size: 0.75rem; opacity: 0.7; margin-left: 8px; }
+        .nav-steps { display: flex; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px; border-radius: var(--radius-md); }
+        .nav-step { display: flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: var(--radius-sm); text-decoration: none; color: rgba(255,255,255,0.7); font-size: 0.875rem; font-weight: 500; transition: all 0.2s; }
+        .nav-step:hover { background: rgba(255,255,255,0.1); color: var(--white); }
+        .nav-step.active { background: var(--accent-500); color: var(--white); }
+        .nav-step .step-num { width: 20px; height: 20px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 600; }
+        .nav-step.active .step-num { background: rgba(0,0,0,0.2); }
+        .app-content { flex: 1; display: flex; overflow: hidden; }
+        .sidebar { width: 320px; background: var(--gray-50); border-right: 1px solid var(--gray-200); display: flex; flex-direction: column; }
+        .sidebar-header { padding: 16px 20px; border-bottom: 1px solid var(--gray-200); background: var(--white); }
+        .sidebar-header h2 { font-size: 1rem; font-weight: 600; color: var(--gray-800); display: flex; align-items: center; gap: 8px; }
+        .sidebar-content { flex: 1; overflow-y: auto; padding: 16px 20px; }
+        .main-panel { flex: 1; display: flex; flex-direction: column; overflow: hidden; background: var(--white); }
+        .main-header { padding: 16px 24px; border-bottom: 1px solid var(--gray-200); background: var(--gray-50); display: flex; justify-content: space-between; align-items: center; }
+        .main-header h2 { font-size: 1rem; font-weight: 600; color: var(--gray-800); }
+        .main-content { flex: 1; overflow-y: auto; padding: 20px 24px; }
+        .form-group { margin-bottom: 16px; }
+        .form-label { display: block; font-size: 0.8125rem; font-weight: 600; color: var(--gray-700); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.03em; }
+        .form-select { width: 100%; padding: 10px 12px; border: 1px solid var(--gray-300); border-radius: var(--radius-sm); font-size: 0.9375rem; font-family: var(--font-sans); background: var(--white); color: var(--gray-800); transition: border-color 0.2s, box-shadow 0.2s; }
+        .form-select:focus { outline: none; border-color: var(--primary-500); box-shadow: 0 0 0 3px var(--primary-100); }
+        .form-select:disabled { background: var(--gray-100); color: var(--gray-500); cursor: not-allowed; }
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 20px; border: none; border-radius: var(--radius-sm); font-size: 0.875rem; font-weight: 600; font-family: var(--font-sans); cursor: pointer; transition: all 0.2s; text-decoration: none; }
+        .btn-primary { background: var(--primary-600); color: var(--white); }
+        .btn-primary:hover { background: var(--primary-700); }
+        .btn-primary:disabled { background: var(--gray-300); cursor: not-allowed; }
+        .btn-success { background: var(--success); color: var(--white); }
+        .btn-secondary { background: var(--gray-200); color: var(--gray-700); }
+        .btn-lg { padding: 12px 24px; font-size: 1rem; }
+        .btn-sm { padding: 6px 12px; font-size: 0.8125rem; }
+        .info-panel { background: var(--primary-50); border: 1px solid var(--primary-100); border-left: 4px solid var(--primary-500); border-radius: var(--radius-sm); padding: 16px; }
+        .info-panel-title { font-size: 0.9375rem; font-weight: 600; color: var(--primary-800); margin-bottom: 12px; }
+        .outcome-list { list-style: none; }
+        .outcome-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-sm); margin-bottom: 6px; font-size: 0.875rem; cursor: pointer; transition: all 0.2s; }
+        .outcome-item:hover { border-color: var(--primary-400); background: var(--primary-50); }
+        .outcome-item.selected { border-color: var(--primary-500); background: var(--primary-50); }
+        .outcome-item input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--primary-500); cursor: pointer; flex-shrink: 0; }
+        .outcome-item label { flex: 1; cursor: pointer; }
+        .activity-box { background: var(--accent-100); border: 1px solid var(--accent-400); border-radius: var(--radius-sm); padding: 12px 16px; margin-top: 12px; font-size: 0.875rem; }
+        .activity-box strong { color: var(--accent-600); }
+        .footer-actions { padding: 16px 24px; border-top: 1px solid var(--gray-200); background: var(--gray-50); display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+        .selection-counter { display: inline-flex; align-items: center; gap: 6px; background: var(--primary-100); color: var(--primary-700); padding: 6px 14px; border-radius: 20px; font-size: 0.875rem; font-weight: 600; }
+        .text-center { text-align: center; }
+        .text-xs { font-size: 0.75rem; }
+        .text-muted { color: var(--gray-500); }
+        .mt-4 { margin-top: 16px; }
+        .hidden { display: none !important; }
+        .fade-in { animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--gray-100); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: var(--gray-300); border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="app-logo">
+                <div class="app-logo-icon"><i class="fas fa-atom"></i></div>
+                <div><h1>AI Prompt Architect Pro<span class="subtitle">v2.0</span></h1></div>
+            </div>
+            <nav class="nav-steps">
+                <a href="index.html" class="nav-step active"><span class="step-num">1</span><span>Curriculum</span></a>
+                <a href="efarmoges_en.html" class="nav-step"><span class="step-num">2</span><span>App Types</span></a>
+                <a href="prompt_generator_en.html" class="nav-step"><span class="step-num">3</span><span>Prompt Studio</span></a>
+            </nav>
+        </header>
+        <div class="app-content">
+            <aside class="sidebar">
+                <div class="sidebar-header"><h2><i class="fas fa-book-open"></i> Content Selection</h2></div>
+                <div class="sidebar-content">
+                    <div class="form-group">
+                        <label class="form-label">Chapter</label>
+                        <select id="chapterSelect" class="form-select"><option value="">Select Chapter...</option></select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Section</label>
+                        <select id="sectionSelect" class="form-select" disabled><option value="">Select Section...</option></select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Subsection</label>
+                        <select id="subsectionSelect" class="form-select" disabled><option value="">Select Subsection...</option></select>
+                    </div>
+                    <div class="mt-4"><p class="text-xs text-muted"><i class="fas fa-info-circle"></i> Navigate the Grade 11 Chemistry curriculum. Select the learning outcomes you want to include.</p></div>
+                </div>
+            </aside>
+            <main class="main-panel">
+                <div class="main-header">
+                    <h2><i class="fas fa-graduation-cap"></i> Learning Outcomes</h2>
+                    <div class="hidden" id="selectControls">
+                        <button class="btn btn-sm btn-secondary" onclick="selectAll()">Select All</button>
+                        <button class="btn btn-sm btn-secondary" onclick="selectNone()">Clear All</button>
+                    </div>
+                </div>
+                <div class="main-content">
+                    <div id="placeholderState" class="text-center" style="padding: 80px 40px; color: var(--gray-400);">
+                        <i class="fas fa-flask" style="font-size: 4rem; margin-bottom: 16px;"></i>
+                        <h3 style="color: var(--gray-500); margin-bottom: 8px;">Select Curriculum Content</h3>
+                        <p style="color: var(--gray-400); font-size: 0.9375rem;">Use the dropdown menus to navigate to your desired topic.<br>Then select which learning outcomes to include.</p>
+                    </div>
+                    <div id="infoPanel" class="info-panel fade-in hidden">
+                        <div class="info-panel-title" id="infoTitle"></div>
+                        <h4 style="font-size: 0.8125rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--gray-600); margin: 16px 0 8px 0;"><i class="fas fa-bullseye"></i> Select Learning Outcomes</h4>
+                        <ul id="outcomesList" class="outcome-list"></ul>
+                        <div id="activityBox" class="activity-box" onclick="toggleActivity()" style="cursor: pointer;">
+                            <input type="checkbox" id="activityCheck" checked onclick="event.stopPropagation()" style="margin-right: 8px; width: 16px; height: 16px; accent-color: var(--accent-600);">
+                            <strong><i class="fas fa-lightbulb"></i> Include Suggested Activity:</strong> <span id="activityText"></span>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+        <footer class="footer-actions">
+            <div class="selection-counter"><i class="fas fa-check-circle"></i><span id="outcomeCount">0</span> outcomes selected</div>
+            <div>
+                <button id="saveBtn" class="btn btn-primary btn-lg" disabled onclick="saveSelection()"><i class="fas fa-save"></i> Save Selection</button>
+                <a href="efarmoges_en.html" id="nextBtn" class="btn btn-success btn-lg hidden">Continue <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </footer>
+    </div>
+    
+    <div style="text-align: center; margin-top: 20px; font-size: 0.85rem; color: var(--gray-600); line-height: 1.5;">
+        <strong>Georgios Korakakis</strong>, Assistant Professor<br>
+        Department of Graphic Design and Visual Communication | School of Applied Arts and Culture | Uniwa (University of West Attica)
+    </div>
+
+    <script>
+        const curriculum = {
+            "Chapter 1": { title: "Stoichiometric Calculations", sections: {
+                "1.1": { title: "The Ideal Gas and Laws", subsections: {
+                    "1.1.1": { title: "Ideal Gas Laws", outcomes: ["State assumptions of kinetic theory", "Investigate P-V-T relationships", "Formulate ideal gas equation"], activity: "Simulation of Ideal Gas behavior" },
+                    "1.1.2": { title: "Molar Volume", outcomes: ["Define STP conditions", "Define Molar Volume (Vm)", "Convert moles to volume"], activity: "Calculation of gas volume at STP" }
+                }},
+                "1.2": { title: "Stoichiometry II", subsections: { "1.2.1": { title: "Calculations with Gases", outcomes: ["Solve stoichiometry problems with gas volumes", "Calculate excess reagents"], activity: "Virtual lab: Gas collection over water" }}}
+            }},
+            "Chapter 2": { title: "Introduction to Organic Chemistry", sections: {
+                "2.1": { title: "Introduction", subsections: { "2.1.1": { title: "Classification", outcomes: ["Recognize functional groups", "Classify organic compounds"], activity: "Interactive classification" }}},
+                "2.2": { title: "Alkanes", subsections: {
+                    "2.2.1": { title: "Properties", outcomes: ["State uses of alkanes", "Build models of methane/ethane"], activity: "3D Molecular Building" },
+                    "2.2.2": { title: "Nomenclature", outcomes: ["Name alkanes (IUPAC)", "Identify isomers"], activity: "Isomer construction challenge" },
+                    "2.2.3": { title: "Combustion", outcomes: ["Distinguish complete/incomplete combustion", "Write combustion equations"], activity: "Virtual combustion experiment" }
+                }},
+                "2.3": { title: "Alkenes", subsections: {
+                    "2.3.1": { title: "Structure", outcomes: ["Describe ethene geometry", "Build alkene models"], activity: "3D Visualization of pi-bonds" },
+                    "2.3.2": { title: "Reactions", outcomes: ["Predict addition products", "Apply Markovnikov rule", "Perform Br2 decolorization test"], activity: "Virtual reaction mechanism" }
+                }}
+            }},
+            "Chapter 3": { title: "Energy & Climate", sections: {
+                "3.1": { title: "Petroleum", subsections: { "3.1.1": { title: "Fractional Distillation", outcomes: ["List fractions", "Describe uses of petrochemicals"], activity: "Virtual Distillation Tower" }}},
+                "3.2": { title: "Alternative Fuels", subsections: { "3.2.1": { title: "Biofuels", outcomes: ["Compare biofuel types", "Evaluate sustainability"], activity: "Fuel Comparison Calculator" }}},
+                "3.3": { title: "Climate Change", subsections: { "3.3.1": { title: "Greenhouse Effect", outcomes: ["Explain greenhouse effect", "List greenhouse gases", "Calculate carbon footprint"], activity: "Carbon Footprint Calculator" }}}
+            }},
+            "Chapter 4": { title: "Thermochemistry", sections: {
+                "4.1": { title: "Enthalpy", subsections: { "4.1.1": { title: "Exothermic/Endothermic", outcomes: ["Classify reactions by heat", "Draw energy profiles"], activity: "Energy Profile Plotter" }}},
+                "4.2": { title: "Calorimetry", subsections: { "4.2.1": { title: "Measuring Heat", outcomes: ["Apply q=mcΔT", "Calculate enthalpy changes"], activity: "Virtual Calorimeter" }}}
+            }},
+            "Chapter 5": { title: "Alcohols & Carboxylic Acids", sections: {
+                "5.1": { title: "Alcohols", subsections: {
+                    "5.1.1": { title: "Classification", outcomes: ["Identify primary/secondary/tertiary alcohols"], activity: "Structure ID Game" },
+                    "5.1.2": { title: "Properties", outcomes: ["Explain boiling points trends", "Relate to hydrogen bonding"], activity: "Intermolecular Forces Sim" },
+                    "5.1.3": { title: "Oxidation", outcomes: ["Predict oxidation products"], activity: "Oxidation Reaction Lab" }
+                }},
+                "5.2": { title: "Carboxylic Acids", subsections: { "5.2.1": { title: "Properties", outcomes: ["Explain acidity", "Write esterification equations"], activity: "Virtual Esterification" }}}
+            }},
+            "Chapter 6": { title: "Biomolecules", sections: {
+                "6.1": { title: "Introduction", subsections: { "6.1.1": { title: "Nutrients", outcomes: ["List nutrient categories", "Identify macronutrients"], activity: "Food Label Analyzer" }}},
+                "6.2": { title: "Carbohydrates", subsections: { "6.2.1": { title: "Sugars", outcomes: ["Classify carbohydrates", "Explain nutritional value"], activity: "Molecule Viewer" }}},
+                "6.3": { title: "Proteins", subsections: { "6.3.1": { title: "Amino Acids", outcomes: ["Describe peptide bond formation", "Identify protein structure levels"], activity: "Protein Folding Sim" }}},
+                "6.4": { title: "Fats & Lipids", subsections: { "6.4.1": { title: "Lipids", outcomes: ["Distinguish saturated vs unsaturated fats"], activity: "Fat Structure Builder" }}}
+            }},
+            "Chapter 7": { title: "Modern Applications", sections: {
+                "7.1": { title: "Pharmaceuticals", subsections: { "7.1.1": { title: "Drug Action", outcomes: ["Explain lock-and-key model", "Describe drug discovery process"], activity: "Drug-Receptor Binding Sim" }}},
+                "7.2": { title: "Polymers", subsections: { "7.2.1": { title: "Types", outcomes: ["Compare natural vs synthetic polymers", "Identify recycling codes"], activity: "Recycling Sorting Game" }}},
+                "7.3": { title: "Nanotechnology", subsections: { "7.3.1": { title: "Nanomaterials", outcomes: ["Define nanoscale", "Compare nano vs bulk properties"], activity: "Nanoscale Zoom Tool" }}}
+            }}
+        };
+        let selectedOutcomes = [];
+        const chSelect = document.getElementById('chapterSelect');
+        const secSelect = document.getElementById('sectionSelect');
+        const subSelect = document.getElementById('subsectionSelect');
+        for (let ch in curriculum) chSelect.innerHTML += `<option value="${ch}">${ch}: ${curriculum[ch].title}</option>`;
+        chSelect.onchange = function() {
+            secSelect.innerHTML = '<option value="">Select Section...</option>';
+            subSelect.innerHTML = '<option value="">Select Subsection...</option>';
+            secSelect.disabled = !this.value; subSelect.disabled = true; hideInfo();
+            if (this.value) for (let s in curriculum[this.value].sections) secSelect.innerHTML += `<option value="${s}">${s} ${curriculum[this.value].sections[s].title}</option>`;
+        };
+        secSelect.onchange = function() {
+            subSelect.innerHTML = '<option value="">Select Subsection...</option>';
+            subSelect.disabled = !this.value; hideInfo();
+            if (this.value) for (let s in curriculum[chSelect.value].sections[this.value].subsections) subSelect.innerHTML += `<option value="${s}">${s} ${curriculum[chSelect.value].sections[this.value].subsections[s].title}</option>`;
+        };
+        subSelect.onchange = function() { if (this.value) showInfo(curriculum[chSelect.value].sections[secSelect.value].subsections[this.value], this.value); else hideInfo(); };
+        function showInfo(data, key) {
+            document.getElementById('infoTitle').innerHTML = `<i class="fas fa-bookmark"></i> ${key}: ${data.title}`;
+            const list = document.getElementById('outcomesList'); list.innerHTML = '';
+            selectedOutcomes = [...data.outcomes];
+            data.outcomes.forEach((o, idx) => {
+                list.innerHTML += `<li class="outcome-item selected" onclick="toggleOutcome(this, ${idx})">
+                    <input type="checkbox" id="o${idx}" checked onclick="event.stopPropagation()">
+                    <label for="o${idx}">${o}</label></li>`;
+            });
+            document.getElementById('activityText').textContent = data.activity;
+            document.getElementById('activityCheck').checked = true;
+            document.getElementById('placeholderState').classList.add('hidden');
+            document.getElementById('infoPanel').classList.remove('hidden');
+            document.getElementById('selectControls').classList.remove('hidden');
+            updateCounter();
+        }
+        function toggleOutcome(el, idx) {
+            const cb = el.querySelector('input'); cb.checked = !cb.checked;
+            el.classList.toggle('selected', cb.checked);
+            const data = curriculum[chSelect.value].sections[secSelect.value].subsections[subSelect.value];
+            if (cb.checked) { if (!selectedOutcomes.includes(data.outcomes[idx])) selectedOutcomes.push(data.outcomes[idx]); }
+            else { selectedOutcomes = selectedOutcomes.filter(o => o !== data.outcomes[idx]); }
+            updateCounter();
+        }
+        function selectAll() {
+            const data = curriculum[chSelect.value].sections[secSelect.value].subsections[subSelect.value];
+            selectedOutcomes = [...data.outcomes];
+            document.querySelectorAll('.outcome-item').forEach(el => { el.classList.add('selected'); el.querySelector('input').checked = true; });
+            updateCounter();
+        }
+        function selectNone() {
+            selectedOutcomes = [];
+            document.querySelectorAll('.outcome-item').forEach(el => { el.classList.remove('selected'); el.querySelector('input').checked = false; });
+            updateCounter();
+        }
+        function updateCounter() {
+            document.getElementById('outcomeCount').textContent = selectedOutcomes.length;
+            document.getElementById('saveBtn').disabled = selectedOutcomes.length === 0;
+        }
+        function hideInfo() {
+            document.getElementById('infoPanel').classList.add('hidden');
+            document.getElementById('placeholderState').classList.remove('hidden');
+            document.getElementById('selectControls').classList.add('hidden');
+            document.getElementById('saveBtn').disabled = true;
+            document.getElementById('nextBtn').classList.add('hidden');
+            selectedOutcomes = []; updateCounter();
+        }
+        function toggleActivity() {
+            const cb = document.getElementById('activityCheck');
+            cb.checked = !cb.checked;
+        }
+        function saveSelection() {
+            const data = curriculum[chSelect.value].sections[secSelect.value].subsections[subSelect.value];
+            const includeActivity = document.getElementById('activityCheck').checked;
+            const payload = { hierarchy: { chapter: `${chSelect.value}: ${curriculum[chSelect.value].title}`, section: `${secSelect.value}: ${curriculum[chSelect.value].sections[secSelect.value].title}`, subsection: `${subSelect.value}: ${data.title}` }, content: { selectedOutcomes: selectedOutcomes, allOutcomes: data.outcomes, activity: includeActivity ? data.activity : null, includeActivity: includeActivity }};
+            localStorage.setItem('selectedCurriculumData', JSON.stringify(payload));
+            const btn = document.getElementById('saveBtn');
+            btn.innerHTML = '<i class="fas fa-check"></i> Saved!'; btn.classList.remove('btn-primary'); btn.classList.add('btn-success');
+            document.getElementById('nextBtn').classList.remove('hidden');
+            setTimeout(() => { btn.innerHTML = '<i class="fas fa-save"></i> Save Selection'; btn.classList.remove('btn-success'); btn.classList.add('btn-primary'); }, 2000);
+        }
+    </script>
+</body>
+</html>

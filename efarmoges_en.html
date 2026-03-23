@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Prompt Architect Pro | App Types</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-900: #0c1929; --primary-800: #152238; --primary-700: #1e3a5f;
+            --primary-600: #2563eb; --primary-500: #3b82f6; --primary-400: #60a5fa;
+            --primary-100: #dbeafe; --primary-50: #eff6ff;
+            --accent-600: #0d9488; --accent-500: #14b8a6; --accent-400: #2dd4bf; --accent-100: #ccfbf1;
+            --success: #059669; --warning: #d97706; --error: #dc2626;
+            --gray-900: #111827; --gray-800: #1f2937; --gray-700: #374151; --gray-600: #4b5563;
+            --gray-500: #6b7280; --gray-400: #9ca3af; --gray-300: #d1d5db; --gray-200: #e5e7eb;
+            --gray-100: #f3f4f6; --gray-50: #f9fafb; --white: #ffffff;
+            --font-sans: 'Source Sans 3', -apple-system, BlinkMacSystemFont, sans-serif;
+            --app-width: 1250px; --app-height: 680px;
+            --radius-sm: 4px; --radius-md: 8px; --radius-lg: 12px;
+            --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1);
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { font-size: 14px; -webkit-font-smoothing: antialiased; }
+        body { font-family: var(--font-sans); background: linear-gradient(135deg, var(--gray-100) 0%, var(--gray-200) 100%); min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; color: var(--gray-800); line-height: 1.5; }
+        .app-container { width: var(--app-width); height: var(--app-height); background: var(--white); border-radius: var(--radius-lg); box-shadow: var(--shadow-xl); display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--gray-200); }
+        .app-header { background: linear-gradient(135deg, var(--primary-800) 0%, var(--primary-900) 100%); color: var(--white); padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; border-bottom: 3px solid var(--accent-500); flex-shrink: 0; }
+        .app-logo { display: flex; align-items: center; gap: 12px; }
+        .app-logo-icon { width: 36px; height: 36px; background: var(--accent-500); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 1.25rem; }
+        .app-logo h1 { font-size: 1.25rem; font-weight: 600; }
+        .app-logo .subtitle { font-size: 0.75rem; opacity: 0.7; margin-left: 8px; }
+        .nav-steps { display: flex; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px; border-radius: var(--radius-md); }
+        .nav-step { display: flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: var(--radius-sm); text-decoration: none; color: rgba(255,255,255,0.7); font-size: 0.875rem; font-weight: 500; transition: all 0.2s; }
+        .nav-step:hover { background: rgba(255,255,255,0.1); color: var(--white); }
+        .nav-step.active { background: var(--accent-500); color: var(--white); }
+        .nav-step .step-num { width: 20px; height: 20px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 600; }
+        .nav-step.active .step-num { background: rgba(0,0,0,0.2); }
+        .toolbar { padding: 12px 24px; border-bottom: 1px solid var(--gray-200); background: var(--gray-50); display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+        .toolbar h2 { font-size: 1rem; font-weight: 600; color: var(--gray-800); }
+        .toolbar p { font-size: 0.75rem; color: var(--gray-500); margin-top: 2px; }
+        .selection-counter { display: inline-flex; align-items: center; gap: 6px; background: var(--primary-100); color: var(--primary-700); padding: 6px 14px; border-radius: 20px; font-size: 0.875rem; font-weight: 600; }
+        .main-content { flex: 1; overflow-y: auto; padding: 20px 24px; }
+        .category-section { margin-bottom: 24px; }
+        .category-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gray-500); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--gray-200); display: flex; align-items: center; gap: 8px; }
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
+        .app-card { background: var(--white); border: 2px solid var(--gray-200); border-radius: var(--radius-md); padding: 14px; cursor: pointer; transition: all 0.2s; position: relative; text-align: center; }
+        .app-card:hover { border-color: var(--primary-400); box-shadow: 0 4px 12px rgba(0,0,0,0.1); transform: translateY(-2px); }
+        .app-card.selected { border-color: var(--primary-500); background: var(--primary-50); }
+        .app-card.selected::after { content: "✓"; position: absolute; top: 8px; right: 8px; width: 20px; height: 20px; background: var(--primary-500); color: var(--white); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: bold; }
+        .app-card-icon { font-size: 1.75rem; margin-bottom: 8px; }
+        .app-card-title { font-size: 0.8125rem; font-weight: 600; color: var(--gray-800); margin-bottom: 2px; }
+        .app-card-desc { font-size: 0.7rem; color: var(--gray-500); }
+        .footer-actions { padding: 16px 24px; border-top: 1px solid var(--gray-200); background: var(--gray-50); display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 20px; border: none; border-radius: var(--radius-sm); font-size: 0.875rem; font-weight: 600; font-family: var(--font-sans); cursor: pointer; transition: all 0.2s; text-decoration: none; }
+        .btn-primary { background: var(--primary-600); color: var(--white); }
+        .btn-success { background: var(--success); color: var(--white); }
+        .btn-secondary { background: var(--gray-200); color: var(--gray-700); }
+        .btn-lg { padding: 12px 24px; font-size: 1rem; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--gray-100); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: var(--gray-300); border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="app-logo">
+                <div class="app-logo-icon"><i class="fas fa-atom"></i></div>
+                <div><h1>AI Prompt Architect Pro<span class="subtitle">v2.0</span></h1></div>
+            </div>
+            <nav class="nav-steps">
+                <a href="index.html" class="nav-step"><span class="step-num">1</span><span>Curriculum</span></a>
+                <a href="efarmoges_en.html" class="nav-step active"><span class="step-num">2</span><span>App Types</span></a>
+                <a href="prompt_generator_en.html" class="nav-step"><span class="step-num">3</span><span>Prompt Studio</span></a>
+            </nav>
+        </header>
+        <div class="toolbar">
+            <div><h2><i class="fas fa-puzzle-piece"></i> Select Interaction Types</h2><p>Choose one or more application types to combine</p></div>
+            <div class="selection-counter"><i class="fas fa-check-circle"></i><span id="selectionCount">0</span> selected</div>
+        </div>
+        <div class="main-content">
+            <section class="category-section">
+                <h3 class="category-title"><i class="fas fa-tools"></i> Core Tools</h3>
+                <div class="card-grid">
+                    <div class="app-card" onclick="toggleApp('Calculator', this)"><div class="app-card-icon">🧮</div><div class="app-card-title">Scientific Calculator</div><div class="app-card-desc">Stoichiometry</div></div>
+                    <div class="app-card" onclick="toggleApp('RefTable', this)"><div class="app-card-icon">📊</div><div class="app-card-title">Reference Table</div><div class="app-card-desc">Periodic Table</div></div>
+                    <div class="app-card" onclick="toggleApp('Flashcards', this)"><div class="app-card-icon">🃏</div><div class="app-card-title">Flashcards</div><div class="app-card-desc">Revision cards</div></div>
+                    <div class="app-card" onclick="toggleApp('Glossary', this)"><div class="app-card-icon">📖</div><div class="app-card-title">Glossary</div><div class="app-card-desc">Searchable terms</div></div>
+                    <div class="app-card" onclick="toggleApp('UnitConverter', this)"><div class="app-card-icon">⚖️</div><div class="app-card-title">Unit Converter</div><div class="app-card-desc">Mass, Volume, Moles</div></div>
+                    <div class="app-card" onclick="toggleApp('Timer', this)"><div class="app-card-icon">⏱️</div><div class="app-card-title">Lab Timer</div><div class="app-card-desc">Experiment timing</div></div>
+                </div>
+            </section>
+            <section class="category-section">
+                <h3 class="category-title"><i class="fas fa-gamepad"></i> Gamification</h3>
+                <div class="card-grid">
+                    <div class="app-card" onclick="toggleApp('DragDrop', this)"><div class="app-card-icon">🔄</div><div class="app-card-title">Drag & Drop</div><div class="app-card-desc">Sorting/Matching</div></div>
+                    <div class="app-card" onclick="toggleApp('Quiz', this)"><div class="app-card-icon">❓</div><div class="app-card-title">Gamified Quiz</div><div class="app-card-desc">Points & Badges</div></div>
+                    <div class="app-card" onclick="toggleApp('EscapeRoom', this)"><div class="app-card-icon">🔐</div><div class="app-card-title">Escape Room</div><div class="app-card-desc">Puzzle unlock</div></div>
+                    <div class="app-card" onclick="toggleApp('MemoryGame', this)"><div class="app-card-icon">🧠</div><div class="app-card-title">Memory Match</div><div class="app-card-desc">Find pairs</div></div>
+                    <div class="app-card" onclick="toggleApp('Hangman', this)"><div class="app-card-icon">😵</div><div class="app-card-title">Hangman</div><div class="app-card-desc">Guess the term</div></div>
+                    <div class="app-card" onclick="toggleApp('Crossword', this)"><div class="app-card-icon">📝</div><div class="app-card-title">Crossword</div><div class="app-card-desc">Terminology</div></div>
+                </div>
+            </section>
+            <section class="category-section">
+                <h3 class="category-title"><i class="fas fa-flask"></i> Simulation & Virtual Lab</h3>
+                <div class="card-grid">
+                    <div class="app-card" onclick="toggleApp('VirtualLab', this)"><div class="app-card-icon">🧪</div><div class="app-card-title">Virtual Lab</div><div class="app-card-desc">Safe experiments</div></div>
+                    <div class="app-card" onclick="toggleApp('3DModel', this)"><div class="app-card-icon">🧊</div><div class="app-card-title">3D Viewer</div><div class="app-card-desc">Rotate molecules</div></div>
+                    <div class="app-card" onclick="toggleApp('Simulation', this)"><div class="app-card-icon">📉</div><div class="app-card-title">Variable Sim</div><div class="app-card-desc">Change values</div></div>
+                    <div class="app-card" onclick="toggleApp('Microscope', this)"><div class="app-card-icon">🔬</div><div class="app-card-title">Microscope</div><div class="app-card-desc">Nanoscale zoom</div></div>
+                    <div class="app-card" onclick="toggleApp('Circuit', this)"><div class="app-card-icon">🔋</div><div class="app-card-title">Circuit Builder</div><div class="app-card-desc">Electrolysis</div></div>
+                </div>
+            </section>
+            <section class="category-section">
+                <h3 class="category-title"><i class="fas fa-robot"></i> AI & Advanced</h3>
+                <div class="card-grid">
+                    <div class="app-card" onclick="toggleApp('Chatbot', this)"><div class="app-card-icon">💬</div><div class="app-card-title">Roleplay Chat</div><div class="app-card-desc">Talk to scientist</div></div>
+                    <div class="app-card" onclick="toggleApp('AdaptiveTest', this)"><div class="app-card-icon">🎯</div><div class="app-card-title">Adaptive Test</div><div class="app-card-desc">Adjusts difficulty</div></div>
+                    <div class="app-card" onclick="toggleApp('LabNotebook', this)"><div class="app-card-icon">📓</div><div class="app-card-title">Lab Notebook</div><div class="app-card-desc">Data recording</div></div>
+                    <div class="app-card" onclick="toggleApp('CaseStudy', this)"><div class="app-card-icon">🔍</div><div class="app-card-title">Case Study</div><div class="app-card-desc">PBL scenarios</div></div>
+                </div>
+            </section>
+        </div>
+        <footer class="footer-actions">
+            <a href="index.html" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back</a>
+            <button class="btn btn-success btn-lg" onclick="saveAndContinue()">Save & Continue <i class="fas fa-arrow-right"></i></button>
+        </footer>
+    </div>
+    
+    <div style="text-align: center; margin-top: 20px; font-size: 0.85rem; color: var(--gray-600); line-height: 1.5;">
+        <strong>Georgios Korakakis</strong>, Assistant Professor<br>
+        Department of Graphic Design and Visual Communication | School of Applied Arts and Culture | Uniwa (University of West Attica)
+    </div>
+
+    <script>
+        let selected = [];
+        function toggleApp(name, el) {
+            if (selected.includes(name)) { selected = selected.filter(i => i !== name); el.classList.remove('selected'); }
+            else { selected.push(name); el.classList.add('selected'); }
+            document.getElementById('selectionCount').textContent = selected.length;
+        }
+        function saveAndContinue() {
+            if (selected.length === 0) { alert('Please select at least one application type.'); return; }
+            localStorage.setItem('selectedAppTypes', JSON.stringify(selected));
+            window.location.href = 'prompt_generator_en.html';
+        }
+        window.onload = function() {
+            const saved = localStorage.getItem('selectedAppTypes');
+            if (saved) {
+                JSON.parse(saved).forEach(name => {
+                    const cards = document.querySelectorAll('.app-card');
+                    cards.forEach(card => { if (card.onclick.toString().includes(`'${name}'`)) { card.classList.add('selected'); selected.push(name); }});
+                });
+                document.getElementById('selectionCount').textContent = selected.length;
+            }
+        };
+    </script>
+</body>
+</html>

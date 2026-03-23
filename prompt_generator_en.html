@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Prompt Architect Pro | Prompt Studio</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-900: #0c1929; --primary-800: #152238; --primary-700: #1e3a5f;
+            --primary-600: #2563eb; --primary-500: #3b82f6; --primary-400: #60a5fa;
+            --primary-100: #dbeafe; --primary-50: #eff6ff;
+            --accent-600: #0d9488; --accent-500: #14b8a6; --accent-400: #2dd4bf; --accent-100: #ccfbf1;
+            --success: #059669; --warning: #d97706; --error: #dc2626;
+            --gray-900: #111827; --gray-800: #1f2937; --gray-700: #374151; --gray-600: #4b5563;
+            --gray-500: #6b7280; --gray-400: #9ca3af; --gray-300: #d1d5db; --gray-200: #e5e7eb;
+            --gray-100: #f3f4f6; --gray-50: #f9fafb; --white: #ffffff;
+            --font-sans: 'Source Sans 3', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --app-width: 1250px; --app-height: 680px;
+            --radius-sm: 4px; --radius-md: 8px; --radius-lg: 12px;
+            --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1);
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { font-size: 14px; -webkit-font-smoothing: antialiased; }
+        body { font-family: var(--font-sans); background: linear-gradient(135deg, var(--gray-100) 0%, var(--gray-200) 100%); min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; color: var(--gray-800); line-height: 1.5; }
+        .app-container { width: var(--app-width); height: var(--app-height); background: var(--white); border-radius: var(--radius-lg); box-shadow: var(--shadow-xl); display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--gray-200); }
+        .app-header { background: linear-gradient(135deg, var(--primary-800) 0%, var(--primary-900) 100%); color: var(--white); padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; border-bottom: 3px solid var(--accent-500); flex-shrink: 0; }
+        .app-logo { display: flex; align-items: center; gap: 12px; }
+        .app-logo-icon { width: 36px; height: 36px; background: var(--accent-500); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 1.25rem; }
+        .app-logo h1 { font-size: 1.25rem; font-weight: 600; }
+        .app-logo .subtitle { font-size: 0.75rem; opacity: 0.7; margin-left: 8px; }
+        .nav-steps { display: flex; gap: 4px; background: rgba(255,255,255,0.1); padding: 4px; border-radius: var(--radius-md); }
+        .nav-step { display: flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: var(--radius-sm); text-decoration: none; color: rgba(255,255,255,0.7); font-size: 0.875rem; font-weight: 500; transition: all 0.2s; }
+        .nav-step:hover { background: rgba(255,255,255,0.1); color: var(--white); }
+        .nav-step.active { background: var(--accent-500); color: var(--white); }
+        .nav-step .step-num { width: 20px; height: 20px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 600; }
+        .nav-step.active .step-num { background: rgba(0,0,0,0.2); }
+        .app-content { flex: 1; display: flex; overflow: hidden; }
+        .sidebar { width: 340px; background: var(--gray-50); border-right: 1px solid var(--gray-200); display: flex; flex-direction: column; overflow: hidden; }
+        .sidebar-header { padding: 12px 16px; border-bottom: 1px solid var(--gray-200); background: var(--white); }
+        .sidebar-header h2 { font-size: 0.9375rem; font-weight: 600; color: var(--gray-800); display: flex; align-items: center; gap: 8px; }
+        .sidebar-content { flex: 1; overflow-y: auto; padding: 12px 16px; }
+        .main-panel { flex: 1; display: flex; flex-direction: column; overflow: hidden; background: var(--white); }
+        .main-header { padding: 12px 20px; border-bottom: 1px solid var(--gray-200); background: var(--gray-50); }
+        .main-header h2 { font-size: 0.9375rem; font-weight: 600; color: var(--gray-800); }
+        .main-content { flex: 1; overflow-y: auto; padding: 16px 20px; }
+        .summary-box { background: var(--primary-50); border: 1px solid var(--primary-100); border-radius: var(--radius-md); padding: 10px 12px; font-size: 0.8125rem; margin-bottom: 12px; }
+        .summary-box strong { color: var(--primary-700); }
+        .form-group { margin-bottom: 12px; }
+        .form-label { display: block; font-size: 0.75rem; font-weight: 600; color: var(--gray-700); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.03em; }
+        .form-select, .form-textarea { width: 100%; padding: 8px 10px; border: 1px solid var(--gray-300); border-radius: var(--radius-sm); font-size: 0.875rem; font-family: var(--font-sans); background: var(--white); }
+        .form-select:focus, .form-textarea:focus { outline: none; border-color: var(--primary-500); box-shadow: 0 0 0 2px var(--primary-100); }
+        details { margin-bottom: 8px; border: 1px solid var(--gray-200); border-radius: var(--radius-sm); background: var(--white); }
+        details summary { padding: 8px 12px; font-size: 0.8125rem; font-weight: 600; color: var(--gray-700); cursor: pointer; display: flex; align-items: center; gap: 8px; }
+        details[open] summary { border-bottom: 1px solid var(--gray-200); background: var(--gray-50); }
+        details .detail-content { padding: 8px 12px; max-height: 150px; overflow-y: auto; }
+        .checkbox-item { display: flex; align-items: center; gap: 8px; padding: 6px 8px; font-size: 0.8125rem; border-radius: var(--radius-sm); margin-bottom: 4px; background: var(--gray-50); }
+        .checkbox-item:hover { background: var(--primary-50); }
+        .checkbox-item input { width: 14px; height: 14px; accent-color: var(--primary-500); }
+        .checkbox-item label { flex: 1; cursor: pointer; }
+        .info-btn { background: none; border: none; color: var(--gray-400); cursor: pointer; padding: 2px; font-size: 0.875rem; }
+        .info-btn:hover { color: var(--primary-500); }
+        /* Color Palette Visual */
+        .palette-option { display: flex; align-items: center; gap: 10px; padding: 8px; border-radius: var(--radius-sm); margin-bottom: 6px; cursor: pointer; border: 2px solid var(--gray-200); transition: all 0.2s; }
+        .palette-option:hover { border-color: var(--primary-400); }
+        .palette-option.selected { border-color: var(--primary-500); background: var(--primary-50); }
+        .palette-option input { width: 14px; height: 14px; accent-color: var(--primary-500); }
+        .color-swatches { display: flex; gap: 4px; }
+        .color-swatch { width: 24px; height: 24px; border-radius: 4px; border: 1px solid rgba(0,0,0,0.1); }
+        .palette-name { font-size: 0.8125rem; font-weight: 500; flex: 1; }
+        /* Style Options */
+        .style-option { display: flex; align-items: center; gap: 8px; padding: 8px; border-radius: var(--radius-sm); margin-bottom: 4px; cursor: pointer; border: 2px solid var(--gray-200); }
+        .style-option:hover { border-color: var(--primary-400); }
+        .style-option.selected { border-color: var(--primary-500); background: var(--primary-50); }
+        .style-option input { width: 14px; height: 14px; }
+        .style-name { font-size: 0.8125rem; font-weight: 500; }
+        .style-desc { font-size: 0.7rem; color: var(--gray-500); }
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 16px; border: none; border-radius: var(--radius-sm); font-size: 0.875rem; font-weight: 600; cursor: pointer; transition: all 0.2s; text-decoration: none; }
+        .btn-primary { background: var(--primary-600); color: var(--white); }
+        .btn-primary:hover { background: var(--primary-700); }
+        .btn-success { background: var(--success); color: var(--white); }
+        .btn-secondary { background: var(--gray-200); color: var(--gray-700); }
+        .btn-block { width: 100%; }
+        .prompt-box { background: var(--gray-900); color: var(--gray-100); font-family: var(--font-mono); font-size: 0.75rem; padding: 12px; border-radius: var(--radius-md); height: 200px; overflow-y: auto; white-space: pre-wrap; line-height: 1.5; border: 1px solid var(--gray-700); }
+        .api-section { background: var(--gray-50); border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 12px; margin-top: 12px; }
+        .api-section h3 { font-size: 0.8125rem; font-weight: 600; color: var(--gray-700); margin-bottom: 8px; }
+        .form-input { width: 100%; padding: 8px 10px; border: 1px solid var(--gray-300); border-radius: var(--radius-sm); font-size: 0.875rem; margin-bottom: 8px; }
+        .chat-area { margin-top: 12px; border-top: 1px solid var(--gray-200); padding-top: 12px; display: none; }
+        .chat-area.active { display: block; }
+        .chat-messages { height: 120px; overflow-y: auto; background: var(--gray-50); border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 8px; margin-bottom: 8px; }
+        .chat-msg { padding: 8px 10px; border-radius: var(--radius-md); margin-bottom: 6px; max-width: 85%; font-size: 0.8125rem; line-height: 1.4; }
+        .chat-msg.user { background: var(--primary-500); color: var(--white); margin-left: auto; }
+        .chat-msg.ai { background: var(--white); border: 1px solid var(--gray-200); }
+        .chat-input-row { display: flex; gap: 6px; }
+        .chat-input-row input { flex: 1; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(4px); }
+        .modal-overlay.active { display: flex; }
+        .modal { background: var(--white); border-radius: var(--radius-lg); padding: 20px; max-width: 450px; width: 90%; max-height: 70vh; overflow-y: auto; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--gray-200); }
+        .modal-header h3 { font-size: 1rem; font-weight: 600; }
+        .modal-close { background: none; border: none; font-size: 1.25rem; color: var(--gray-400); cursor: pointer; }
+        .modal-body { font-size: 0.875rem; line-height: 1.6; color: var(--gray-700); }
+        .bib-box { background: var(--gray-100); border-left: 3px solid var(--primary-500); padding: 10px 12px; margin-top: 12px; font-size: 0.75rem; font-style: italic; color: var(--gray-600); }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--gray-100); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb { background: var(--gray-300); border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="app-logo">
+                <div class="app-logo-icon"><i class="fas fa-atom"></i></div>
+                <div><h1>AI Prompt Architect Pro<span class="subtitle">v2.0</span></h1></div>
+            </div>
+            <nav class="nav-steps">
+                <a href="index.html" class="nav-step"><span class="step-num">1</span><span>Curriculum</span></a>
+                <a href="efarmoges_en.html" class="nav-step"><span class="step-num">2</span><span>App Types</span></a>
+                <a href="prompt_generator_en.html" class="nav-step active"><span class="step-num">3</span><span>Prompt Studio</span></a>
+            </nav>
+        </header>
+        <div class="app-content">
+            <aside class="sidebar">
+                <div class="sidebar-header"><h2><i class="fas fa-sliders-h"></i> Configuration</h2></div>
+                <div class="sidebar-content">
+                    <div id="summaryBox" class="summary-box"><strong><i class="fas fa-clipboard-list"></i> Summary</strong><div id="summaryContent"></div></div>
+                    <div class="form-group">
+                        <label class="form-label">Scenarios to Generate</label>
+                        <select id="scenarioCount" class="form-select"><option value="1">1 Scenario</option><option value="3" selected>3 Scenarios</option><option value="5">5 Scenarios</option></select>
+                    </div>
+                    <details open><summary><i class="fas fa-eye"></i> Nielsen's 10 Heuristics</summary><div class="detail-content" id="nielsenGroup"></div></details>
+                    <details><summary><i class="fas fa-compass"></i> Norman's 7 Principles</summary><div class="detail-content" id="normanGroup"></div></details>
+                    <details><summary><i class="fas fa-universal-access"></i> Accessibility (WCAG 2.1)</summary><div class="detail-content" id="wcagGroup"></div></details>
+                    <details><summary><i class="fas fa-palette"></i> Design Style</summary><div class="detail-content" id="styleGroup"></div></details>
+                    <details><summary><i class="fas fa-swatchbook"></i> Color Palette</summary><div class="detail-content" id="paletteGroup"></div></details>
+                    <div class="form-group" style="margin-top: 12px;">
+                        <label class="form-label">Additional Instructions</label>
+                        <textarea id="extraNotes" class="form-textarea" rows="2" placeholder="e.g. Focus on collaborative learning..."></textarea>
+                    </div>
+                    <button class="btn btn-primary btn-block" onclick="generatePrompt()"><i class="fas fa-magic"></i> Generate Prompt</button>
+                </div>
+            </aside>
+            <main class="main-panel">
+                <div class="main-header"><h2><i class="fas fa-rocket"></i> Prompt Output & Execution</h2></div>
+                <div class="main-content">
+                    <div class="prompt-box" id="promptText">Click "Generate Prompt" to create your optimized super-prompt...</div>
+                    <div style="display: flex; gap: 6px; margin-top: 10px;">
+                        <button class="btn btn-secondary" onclick="copyPrompt()" style="flex:1"><i class="fas fa-copy"></i> Copy Prompt for AI (ChatGPT, Claude, Gemini, Copilot)</button>
+                    </div>
+                    <div class="api-section">
+                        <h3><i class="fas fa-key"></i> Live Execution (Gemini API)</h3>
+                        <details style="border: none; margin-bottom: 8px;"><summary style="padding: 4px 0; font-size: 0.75rem;">How to get a FREE API Key?</summary><ol style="font-size: 0.75rem; margin: 4px 0 0 16px; color: var(--gray-600);"><li>Go to Google AI Studio</li><li>Click "Create API Key"</li><li>Paste below</li></ol></details>
+                        <input type="password" id="apiKey" class="form-input" placeholder="Paste your AIza... key here">
+                        <button class="btn btn-success btn-block" onclick="startChat()"><i class="fas fa-play"></i> Start Generation</button>
+                    </div>
+                    <div id="chatInterface" class="chat-area">
+                        <div id="chatMessages" class="chat-messages"></div>
+                        <div class="chat-input-row">
+                            <input type="text" id="chatInput" class="form-input" style="margin-bottom:0" placeholder="Type feedback..." onkeypress="if(event.key==='Enter') sendMessage()">
+                            <button class="btn btn-primary" onclick="sendMessage()">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <div style="text-align: center; margin-top: 20px; font-size: 0.85rem; color: var(--gray-600); line-height: 1.5;">
+        <strong>Georgios Korakakis</strong>, Assistant Professor<br>
+        Department of Graphic Design and Visual Communication | School of Applied Arts and Culture | Uniwa (University of West Attica)
+    </div>
+
+    <div id="infoModal" class="modal-overlay" onclick="closeModal()">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header"><h3 id="modalTitle"></h3><button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button></div>
+            <div class="modal-body" id="modalBody"></div>
+            <div class="bib-box" id="modalBib"></div>
+        </div>
+    </div>
+    <script>
+        // Nielsen's 10 Usability Heuristics
+        const nielsen = [
+            { t: "Visibility of System Status", d: "Keep users informed through appropriate feedback within reasonable time.", b: "Nielsen, J. (1994). Usability Engineering." },
+            { t: "Match Between System and Real World", d: "Speak the users' language with familiar words and concepts.", b: "Nielsen, J. (1994). Usability Engineering." },
+            { t: "User Control and Freedom", d: "Provide emergency exits and support undo/redo.", b: "Nielsen, J. (1994). Usability Engineering." },
+            { t: "Consistency and Standards", d: "Follow platform conventions; same words mean same things.", b: "Nielsen, J. (1994). Usability Engineering." },
+            { t: "Error Prevention", d: "Eliminate error-prone conditions or provide confirmation.", b: "Nielsen, J. (1994). Usability Engineering." },
+            { t: "Recognition Rather Than Recall", d: "Minimize memory load; make options visible.", b: "Nielsen, J. (1994). Usability Engineering." },
+            { t: "Flexibility and Efficiency of Use", d: "Provide shortcuts for expert users.", b: "Nielsen, J. (1994). Usability Engineering." },
+            { t: "Aesthetic and Minimalist Design", d: "Remove irrelevant or rarely needed information.", b: "Nielsen, J. (1994). Usability Engineering." },
+            { t: "Help Users Recover from Errors", d: "Express errors in plain language with solutions.", b: "Nielsen, J. (1994). Usability Engineering." },
+            { t: "Help and Documentation", d: "Provide searchable, task-focused documentation.", b: "Nielsen, J. (1994). Usability Engineering." }
+        ];
+        // Norman's 7 Design Principles
+        const norman = [
+            { t: "Discoverability", d: "Is it possible to determine what actions are possible?", b: "Norman, D. A. (2013). The Design of Everyday Things." },
+            { t: "Feedback", d: "Full and continuous information about results of actions.", b: "Norman, D. A. (2013). The Design of Everyday Things." },
+            { t: "Conceptual Model", d: "Design projects all info needed for a good mental model.", b: "Norman, D. A. (2013). The Design of Everyday Things." },
+            { t: "Affordances", d: "Proper affordances exist to make desired actions possible.", b: "Norman, D. A. (2013). The Design of Everyday Things." },
+            { t: "Signifiers", d: "Effective signifiers ensure discoverability and feedback.", b: "Norman, D. A. (2013). The Design of Everyday Things." },
+            { t: "Mappings", d: "Relationship between controls and actions is clear.", b: "Norman, D. A. (2013). The Design of Everyday Things." },
+            { t: "Constraints", d: "Physical/logical/cultural constraints guide actions.", b: "Norman, D. A. (2013). The Design of Everyday Things." }
+        ];
+        // WCAG 2.1 Accessibility
+        const wcag = [
+            { t: "Keyboard Navigation", d: "All functionality available via keyboard (2.1.1).", b: "W3C WCAG 2.1" },
+            { t: "Color Contrast (AA)", d: "Text contrast ratio at least 4.5:1 (1.4.3).", b: "W3C WCAG 2.1" },
+            { t: "ARIA Labels", d: "Use ARIA for screen reader support (4.1.2).", b: "W3C WCAG 2.1" },
+            { t: "Focus Indicators", d: "Visible focus indicator for all interactive elements (2.4.7).", b: "W3C WCAG 2.1" },
+            { t: "Semantic HTML", d: "Use proper HTML5 semantic elements (1.3.1).", b: "W3C WCAG 2.1" },
+            { t: "Alt Text", d: "All meaningful images have alt text (1.1.1).", b: "W3C WCAG 2.1" },
+            { t: "Text Resizing", d: "Text resizable up to 200% without loss (1.4.4).", b: "W3C WCAG 2.1" },
+            { t: "Timing Adjustable", d: "Users can extend or disable time limits (2.2.1).", b: "W3C WCAG 2.1" }
+        ];
+        // Design Styles
+        const styles = [
+            { t: "Modern Minimal", d: "Clean lines, whitespace, subtle shadows" },
+            { t: "Glassmorphism", d: "Frosted glass, translucent backgrounds" },
+            { t: "Material Design", d: "Google's system with elevation" },
+            { t: "Neumorphism", d: "Soft UI, embossed elements" },
+            { t: "Playful", d: "Vibrant colors, rounded shapes" },
+            { t: "Professional", d: "Conservative, clear hierarchy" }
+        ];
+        // Color Palettes with hex values
+        const palettes = [
+            { t: "Chemistry", colors: ["#2563eb", "#10b981", "#1e293b"], desc: "Blue, Emerald, Dark" },
+            { t: "Nature", colors: ["#059669", "#84cc16", "#14532d"], desc: "Green, Lime, Forest" },
+            { t: "Ocean", colors: ["#0284c7", "#06b6d4", "#0c4a6e"], desc: "Sky, Cyan, Deep" },
+            { t: "Sunset", colors: ["#ea580c", "#f59e0b", "#7c2d12"], desc: "Orange, Amber, Brown" },
+            { t: "Purple", colors: ["#7c3aed", "#a855f7", "#3b0764"], desc: "Violet, Purple, Dark" },
+            { t: "Monochrome", colors: ["#374151", "#6b7280", "#111827"], desc: "Grays" }
+        ];
+        
+        window.onload = function() {
+            loadSummary();
+            renderCheckboxes('nielsenGroup', nielsen);
+            renderCheckboxes('normanGroup', norman);
+            renderCheckboxes('wcagGroup', wcag);
+            renderStyles('styleGroup', styles);
+            renderPalettes('paletteGroup', palettes);
+        };
+        
+        function loadSummary() {
+            const cData = JSON.parse(localStorage.getItem('selectedCurriculumData'));
+            const aData = JSON.parse(localStorage.getItem('selectedAppTypes'));
+            let html = '';
+            if (cData) {
+                html += `<div style="margin-top:6px"><strong>Topic:</strong> ${cData.hierarchy?.subsection || 'Not selected'}</div>`;
+                const outcomes = cData.content?.selectedOutcomes || cData.content?.allOutcomes || [];
+                html += `<div><strong>Outcomes:</strong> ${outcomes.length} selected</div>`;
+                if (cData.content?.includeActivity && cData.content?.activity) {
+                    html += `<div><strong>Activity:</strong> ✓ Included</div>`;
+                }
+            } else { html += '<div style="color:#d97706;margin-top:6px"><i class="fas fa-exclamation-triangle"></i> No curriculum selected</div>'; }
+            if (aData && aData.length > 0) { html += `<div><strong>Apps:</strong> ${aData.join(', ')}</div>`; }
+            else { html += '<div style="color:#d97706"><i class="fas fa-exclamation-triangle"></i> No app types selected</div>'; }
+            document.getElementById('summaryContent').innerHTML = html;
+        }
+        
+        function renderCheckboxes(containerId, items) {
+            const c = document.getElementById(containerId);
+            items.forEach((item, idx) => {
+                c.innerHTML += `<div class="checkbox-item"><input type="checkbox" id="${containerId}${idx}" value="${item.t}" checked><label for="${containerId}${idx}">${item.t}</label><button class="info-btn" onclick="showInfo('${esc(item.t)}','${esc(item.d)}','${esc(item.b)}')"><i class="fas fa-info-circle"></i></button></div>`;
+            });
+        }
+        
+        function renderStyles(containerId, items) {
+            const c = document.getElementById(containerId);
+            items.forEach((item, idx) => {
+                c.innerHTML += `<div class="style-option ${idx===0?'selected':''}" onclick="selectStyle(this)"><input type="radio" name="style" value="${item.t}" ${idx===0?'checked':''}><div><div class="style-name">${item.t}</div><div class="style-desc">${item.d}</div></div></div>`;
+            });
+        }
+        
+        function renderPalettes(containerId, items) {
+            const c = document.getElementById(containerId);
+            items.forEach((item, idx) => {
+                const swatches = item.colors.map(color => `<div class="color-swatch" style="background:${color}"></div>`).join('');
+                c.innerHTML += `<div class="palette-option ${idx===0?'selected':''}" onclick="selectPalette(this)"><input type="radio" name="palette" value="${item.t}" ${idx===0?'checked':''}><div class="color-swatches">${swatches}</div><div class="palette-name">${item.t}</div></div>`;
+            });
+        }
+        
+        function selectStyle(el) { document.querySelectorAll('.style-option').forEach(e => e.classList.remove('selected')); el.classList.add('selected'); el.querySelector('input').checked = true; }
+        function selectPalette(el) { document.querySelectorAll('.palette-option').forEach(e => e.classList.remove('selected')); el.classList.add('selected'); el.querySelector('input').checked = true; }
+        function esc(str) { return str.replace(/'/g, "\\'"); }
+        function showInfo(t, d, b) {
+            document.getElementById('modalTitle').textContent = t;
+            document.getElementById('modalBody').textContent = d;
+            document.getElementById('modalBib').innerHTML = b ? `<strong>Source:</strong> ${b}` : '';
+            document.getElementById('modalBib').style.display = b ? 'block' : 'none';
+            document.getElementById('infoModal').classList.add('active');
+        }
+        function closeModal() { document.getElementById('infoModal').classList.remove('active'); }
+        
+        function generatePrompt() {
+            const cData = JSON.parse(localStorage.getItem('selectedCurriculumData'));
+            const aData = JSON.parse(localStorage.getItem('selectedAppTypes'));
+            const nielsenSel = Array.from(document.querySelectorAll('#nielsenGroup input:checked')).map(c => c.value).join(', ');
+            const normanSel = Array.from(document.querySelectorAll('#normanGroup input:checked')).map(c => c.value).join(', ');
+            const wcagSel = Array.from(document.querySelectorAll('#wcagGroup input:checked')).map(c => c.value).join(', ');
+            const style = document.querySelector('input[name="style"]:checked')?.value || 'Modern Minimal';
+            const palette = document.querySelector('input[name="palette"]:checked')?.value || 'Chemistry';
+            const count = document.getElementById('scenarioCount').value;
+            const notes = document.getElementById('extraNotes').value;
+            
+            let contextStr = "", outcomesStr = "", activityStr = "";
+            if (cData) {
+                contextStr = `Topic: ${cData.hierarchy?.subsection || 'General Chemistry'}`;
+                if (cData.content?.includeActivity && cData.content?.activity) {
+                    activityStr = `\nSuggested Activity: ${cData.content.activity}`;
+                }
+                const outcomes = cData.content?.selectedOutcomes || cData.content?.allOutcomes || [];
+                outcomesStr = outcomes.map(o => `- ${o}`).join('\n');
+            }
+            let appStr = Array.isArray(aData) && aData.length > 0 ? aData.join(', ') : 'Interactive Quiz';
+            
+            const prompt = `# ROLE
+Expert educational technology developer for science education.
+
+# 1. EDUCATIONAL CONTEXT
+**Subject:** Grade 11 Chemistry
+${contextStr}${activityStr}
+
+**LEARNING OBJECTIVES:**
+${outcomesStr || '- General chemistry objectives'}
+
+# 2. APPLICATION
+**Types:** ${appStr}
+
+# 3. DESIGN SPECIFICATIONS
+
+## Nielsen's Usability Heuristics
+${nielsenSel || 'All 10 heuristics'}
+
+## Norman's Design Principles
+${normanSel || 'All 7 principles'}
+
+## Accessibility (WCAG 2.1 AA)
+${wcagSel || 'Full compliance'}
+
+## Visual Design
+- **Style:** ${style}
+- **Palette:** ${palette}
+
+# 4. TECHNICAL REQUIREMENTS
+- Single HTML file with embedded CSS/JS
+- NO external dependencies
+- Responsive design (CSS Grid/Flexbox)
+- NO CSS variables in JavaScript (use hex values)
+- Include touch events for mobile
+- UTF-8 encoding
+
+# 5. PROCESS
+1. Propose ${count} distinct scenario(s)
+2. WAIT for user selection
+3. Generate FULL code after selection
+
+${notes ? `# 6. NOTES\n${notes}` : ''}`;
+            document.getElementById('promptText').textContent = prompt.trim();
+        }
+        
+        function copyPrompt() { navigator.clipboard.writeText(document.getElementById('promptText').textContent); alert('Copied!'); }
+        
+        let history = [];
+        function startChat() {
+            const key = document.getElementById('apiKey').value;
+            if (!key) { alert('Enter API key'); return; }
+            generatePrompt();
+            document.getElementById('chatInterface').classList.add('active');
+            const msg = document.getElementById('promptText').textContent + "\n\n[Begin Phase 1]";
+            addMsg('user', 'Starting...');
+            sendToAI(msg, key);
+        }
+        async function sendMessage() {
+            const txt = document.getElementById('chatInput').value.trim();
+            const key = document.getElementById('apiKey').value;
+            if (!txt) return;
+            addMsg('user', txt);
+            document.getElementById('chatInput').value = '';
+            await sendToAI(txt, key);
+        }
+        function addMsg(role, txt) {
+            const c = document.getElementById('chatMessages');
+            const d = document.createElement('div');
+            d.className = `chat-msg ${role}`;
+            d.innerHTML = txt.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+            c.appendChild(d);
+            c.scrollTop = c.scrollHeight;
+        }
+        async function sendToAI(txt, key) {
+            history.push({ role: "user", parts: [{ text: txt }] });
+            try {
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${key}`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: history })
+                });
+                const data = await res.json();
+                if (data.error) throw new Error(data.error.message);
+                const reply = data.candidates[0].content.parts[0].text;
+                history.push({ role: "model", parts: [{ text: reply }] });
+                if (reply.includes('```html')) {
+                    const parts = reply.split('```html');
+                    const code = parts[1].split('```')[0];
+                    addMsg('ai', parts[0] + '<br><strong>✅ Code Generated!</strong>');
+                    const blob = new Blob([code], { type: 'text/html' });
+                    const url = URL.createObjectURL(blob);
+                    const c = document.getElementById('chatMessages');
+                    c.innerHTML += `<div style="margin:8px 0"><a href="${url}" download="app.html" class="btn btn-success" style="font-size:0.75rem"><i class="fas fa-download"></i> Download</a> <a href="${url}" target="_blank" class="btn btn-primary" style="font-size:0.75rem"><i class="fas fa-external-link-alt"></i> Preview</a></div>`;
+                } else { addMsg('ai', reply); }
+            } catch (e) { addMsg('ai', `<strong style="color:#dc2626">Error:</strong> ${e.message}`); }
+        }
+    </script>
+</body>
+</html>
