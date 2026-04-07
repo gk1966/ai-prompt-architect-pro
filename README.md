@@ -108,4 +108,4 @@ If you use this software in academic work, you can cite it as:
 
 > Korakakis, G. (2026). *AI Prompt Architect Pro*.
 
-If a Zenodo DOI is created later, replace the citation above with the final DOI-based citation.
+https://doi.org/10.5281/zenodo.19187956
