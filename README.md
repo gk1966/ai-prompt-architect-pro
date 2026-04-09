@@ -1,111 +1,89 @@
-# AI Prompt Architect Pro
+# AI Prompt Architect Pro v2.0
 
-AI Prompt Architect Pro is a web-based authoring environment for designing interactive educational applications through AI-driven prompt engineering.
-
-The system combines curriculum-aligned learning outcomes, application design patterns, and human-centered design principles to help educators, instructional designers, and researchers produce structured prompts for generative AI systems.
+A Web-Based Tool for Structured AI Prompt Generation in Science Education
 
 ## Overview
 
-The application follows a 3-step workflow:
+AI Prompt Architect Pro is an open-source, client-side web application that enables educators to generate structured, pedagogically grounded AI prompts for creating interactive educational HTML applications. The tool follows a guided three-step wizard workflow that integrates curriculum content, interaction design patterns, and established UI/UX design principles.
 
-1. **Curriculum Selection** (`index.html`)
-2. **Application Type Selection** (`efarmoges_en.html`)
-3. **Prompt Generation** (`prompt_generator_en.html`)
+The application was developed in the context of the "Critical Prompting" pedagogical methodology, which aims to empower educators — particularly in secondary and higher education — to leverage generative AI tools (such as ChatGPT, Claude, Gemini, and Copilot) for the systematic creation of single-file, self-contained HTML educational applications.
 
-Selections are stored in the browser with `localStorage`, so the workflow can move across the three pages without a backend.
+## Target Audience
+
+- Science educators (secondary and higher education)
+- Educational technology researchers
+- Teacher trainers and professional development facilitators
+- Instructional designers working with AI-assisted content generation
 
 ## Features
 
-- Curriculum-based chemistry content selection
-- Learning-outcome selection with optional suggested activities
-- Multiple educational app patterns, including:
-  - simulations and virtual labs
-  - quizzes and gamified activities
-  - flashcards, glossary, calculator, and other learning tools
-- Prompt generation for AI tools such as ChatGPT, Gemini, Claude, and Copilot
-- Integration of:
-  - Nielsen’s usability heuristics
-  - Norman’s design principles
-  - WCAG 2.1 accessibility guidance
-- Design style and color palette options
+### Step 1 — Curriculum Selection (index.html)
 
-## Repository Structure
+- Hierarchical navigation of a Grade 11 Chemistry curriculum (7 chapters)
+- Granular selection of individual learning outcomes
+- Optional inclusion of suggested pedagogical activities per topic
 
-```text
-.
-├── index.html
-├── efarmoges_en.html
-├── prompt_generator_en.html
-└── README.md
-```
+### Step 2 — Application Type Selection (efarmoges_en.html)
 
-## How to Run
+Selection of interactive application types across four categories:
 
-### Option 1: Run locally
+- Core Tools: Scientific Calculator, Reference Table, Flashcards, Glossary, Unit Converter, Lab Timer
+- Gamification: Drag and Drop, Gamified Quiz, Escape Room, Memory Match, Hangman, Crossword
+- Simulation and Virtual Lab: Virtual Lab, 3D Viewer, Variable Simulation, Microscope, Circuit Builder
+- AI and Advanced: Roleplay Chatbot, Adaptive Test, Lab Notebook, Case Study (PBL)
 
-Since this project is a static HTML/CSS/JavaScript application, you can run it directly in a browser:
+### Step 3 — Prompt Studio (prompt_generator_en.html)
 
-1. Download or clone the repository.
-2. Open `index.html` in your browser.
-3. Continue through the 3-step workflow.
+- Jakob Nielsen's 10 Usability Heuristics
+- Don Norman's 7 Design Principles
+- WCAG 2.1 AA Accessibility Guidelines
+- 6 Visual Design Styles and 6 Color Palettes
+- Automatic generation of structured, copy-ready AI prompts
+- Optional live execution via Google Gemini API
 
-### Option 2: Publish with GitHub Pages
+## Technical Specifications
 
-1. Upload the files to a GitHub repository.
-2. Go to **Settings → Pages**.
-3. Under **Build and deployment**, choose **Deploy from a branch**.
-4. Select the branch (usually `main`) and folder `/ (root)`.
-5. Save and wait for the site URL to be generated.
+| Property | Value |
+|----------|-------|
+| Technology | HTML5, CSS3, JavaScript (ES6+) |
+| Architecture | Client-side only, no server required |
+| Browser support | Chrome, Firefox, Edge, Safari |
+| Encoding | UTF-8 |
 
-## Important Notes
+## Installation and Usage
 
-- The current interface loads **Google Fonts** and **Font Awesome** from external CDNs, so it is not fully offline.
-- The Prompt Studio includes optional live execution through the **Gemini API**. If you use that feature in a public deployment, users enter their own API key in the browser. Review this carefully before public release.
-- No backend or database is required for the core 3-step flow.
+1. Download or clone all three HTML files into the same directory
+2. Open index.html in a modern web browser
+3. Follow the three-step workflow
+4. Copy the generated prompt and paste it into any AI system
 
-## Technologies
+## AI Disclosure
 
-- HTML5
-- CSS3
-- Vanilla JavaScript
-- Browser `localStorage`
-
-## Intended Audience
-
-- Educators
-- Instructional designers
-- HCI / UX researchers
-- Researchers exploring AI-assisted educational design
-
-## Scientific Background
-
-The system draws on the following foundations:
-
-- Nielsen, J. (1994). *Usability Engineering*
-- Norman, D. A. (2013). *The Design of Everyday Things*
-- W3C. (2018). *Web Content Accessibility Guidelines (WCAG) 2.1*
-
-## Recommended Repository Extras
-
-For a stronger GitHub repository, consider adding:
-
-- `LICENSE`
-- screenshots or a demo GIF
-- `CITATION.cff`
-- a live GitHub Pages link
-- version / release notes
+This application was developed with the assistance of generative AI tools (Claude, Anthropic) for code generation and iterative refinement. All content was reviewed, validated, and curated by the author. The pedagogical design, curriculum mapping, and theoretical framework integration are the intellectual contribution of the author.
 
 ## Author
 
-**Georgios Korakakis**  
-Assistant Professor  
-Department of Graphic Design and Visual Communication  
-University of West Attica
+Georgios Korakakis, PhD
+Assistant Professor
+Department of Graphic Design and Visual Communication
+School of Applied Arts and Culture
+University of West Attica (UNIWA), Greece
+gkorakakis@uniwa.gr
+ORCID: 0009-0005-0042-6348
 
 ## Citation
 
-If you use this software in academic work, you can cite it as:
+Korakakis, G. (2026). AI Prompt Architect Pro v2.0: A Web-Based Tool for Structured AI Prompt Generation in Science Education [Software]. Zenodo. https://doi.org/10.5281/zenodo.19187956
 
-> Korakakis, G. (2026). *AI Prompt Architect Pro*.
+## License
+
+Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)
+https://creativecommons.org/licenses/by-nc/4.0/
+
+## Permanent Archive
 
 https://doi.org/10.5281/zenodo.19187956
+
+---
+
+Department of Graphic Design and Visual Communication - School of Applied Arts and Culture - University of West Attica (UNIWA)
