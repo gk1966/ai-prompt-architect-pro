@@ -28,8 +28,7 @@ The package also includes:
 - `LICENSE` - License statement
 - `CHANGELOG.md` - Version notes
 - `FILE_MANIFEST.md` - Package file inventory
-- `ZENODO_UPLOAD_FIELDS.md` - Suggested Zenodo metadata fields
-- `.zenodo.json` - Optional Zenodo/GitHub metadata
+
 
 ## How to Run
 
