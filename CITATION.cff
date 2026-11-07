@@ -1,16 +1,16 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it using the metadata below."
 type: software
-title: "AI Prompt Architect Pro v3.0: A Web-Based Tool for Structured AI Prompt Generation in Science Education"
+title: "AI Prompt Architect Pro v3.1: A Web-Based Tool for Structured AI Prompt Generation in Science Education"
 authors:
   - family-names: "Korakakis"
     given-names: "Georgios"
     orcid: "https://orcid.org/0009-0005-0042-6348"
-version: "v3.0"
-doi: "10.5281/zenodo.20368438"
-date-released: "2026-05-24"
+version: "v3.1"
+doi: "10.5281/zenodo.24040227"
+date-released: "2026-11-07"
 license: "MIT"
-url: "https://doi.org/10.5281/zenodo.20368438"
+url: "https://doi.org/10.5281/zenodo.24040227"
 abstract: "AI Prompt Architect Pro is a client-side web application that helps educators generate structured, pedagogically grounded prompts for creating interactive educational HTML applications with generative AI systems."
 keywords:
   - "artificial intelligence"
@@ -20,3 +20,15 @@ keywords:
   - "instructional design"
   - "usability"
   - "accessibility"
+references:
+  - type: article
+    title: "AI Prompt Architect Pro: Designing a No-Code Tool for Educator-Created Learning Applications"
+    authors:
+      - family-names: "Korakakis"
+        given-names: "Georgios"
+      - family-names: "Dalacosta"
+        given-names: "Konstadina"
+      - family-names: "Vlassi"
+        given-names: "Maria"
+    journal: "International Journal of Designs for Learning"
+    status: in-press

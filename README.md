@@ -1,4 +1,4 @@
-# AI Prompt Architect Pro v3.0
+# AI Prompt Architect Pro v3.1
 
 **A Web-Based Tool for Structured AI Prompt Generation in Science Education**
 
@@ -8,10 +8,10 @@ The tool follows a guided three-step workflow that combines curriculum content, 
 
 ## Version
 
-- Version: v3.0
-- DOI (archived release): https://doi.org/10.5281/zenodo.20368438
-- Previous Zenodo version: https://doi.org/10.5281/zenodo.19187956
-- Release date: 2026-05-24
+- Version: v3.1
+- DOI (archived release): https://doi.org/10.5281/zenodo.24040227
+- Previous Zenodo versions: v3.0 https://doi.org/10.5281/zenodo.20368438, v2.0 https://doi.org/10.5281/zenodo.19187956
+- Release date: 2026-11-07
 
 ## Main Files
 
@@ -29,7 +29,7 @@ The repository also includes:
 - `CHANGELOG.md` - Version notes
 - `FILE_MANIFEST.md` - Repository file inventory
 
-> Note: A user manual (`User_Manual_v3.html`) and additional packaging files are
+> Note: A user manual (`User_Manual_v3.1.html`) and additional packaging files are
 > distributed with the archived release on Zenodo (see the DOI above).
 
 ## How to Run
@@ -52,7 +52,7 @@ No installation or server is required for the core workflow.
 - Prompt generation for systems such as ChatGPT, Claude, Gemini, and Copilot.
 - Integration of Nielsen's usability heuristics, Norman's design principles, and WCAG 2.1 accessibility guidance.
 - Visual style and color palette configuration.
-- Optional live execution through a user-supplied Google Gemini API key.
+- Optional live execution through a user-supplied Google Gemini API key, with a choice of model (gemini-3.8-flash by default, or gemini-3.5-flash-lite) and a progress indicator while a response is generated.
 
 ## Technical Notes
 
@@ -89,10 +89,14 @@ ORCID: https://orcid.org/0009-0005-0042-6348
 If you use this software in research or teaching, please cite:
 
 ```text
-Korakakis, G. (2026). AI Prompt Architect Pro v3.0: A Web-Based Tool for Structured
-AI Prompt Generation in Science Education [Software]. Zenodo.
-https://doi.org/10.5281/zenodo.20368438
+Korakakis, G. (2026). AI Prompt Architect Pro v3.1: A Web-Based Tool for Structured
+AI Prompt Generation in Science Education (Version v3.1) [Software]. Zenodo.
+https://doi.org/10.5281/zenodo.24040227
 ```
+
+The design and development of the tool are described in:
+
+Korakakis, G., Dalacosta, K., & Vlassi, M. (in press). AI Prompt Architect Pro: Designing a no-code tool for educator-created learning applications. *International Journal of Designs for Learning*.
 
 ## License
 
